@@ -1,16 +1,17 @@
 # value_notifier_demo
 
-A new Flutter project.
+ValueNotifier - updating the data in the parent widget from the child widget. 
 
-## Getting Started
+## Description
 
-This project is a starting point for a Flutter application.
+This code will help you solve the problem of updating the data in the parent from the child. Since it is impossible to update a parent from a child, if we pass parent-setState to the child.
 
-A few resources to get you started if this is your first Flutter project:
+I already use bloc + clean arch in my projects, but I wanted to find something less cumbersome, for updating data locally only on the widgets tree.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Locally, I don’t need states - since the data is thrown inside the widget tree. There is no network data that takes a long time to load or contain delivery errors.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The only thing I would like to find is how to pass the valuenotifier object from parent to child. While thinking about a global static variable.
+
+Thank @ResoCoder for the idea:
+[https://github.com/ResoCoder/powers-of-immutable-state]
+[https://youtu.be/4UePKj4vsK8?t=2889]
