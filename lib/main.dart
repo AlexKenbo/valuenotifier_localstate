@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 
+import 'env.dart';
 import 'navdata.dart';
 import 'navdata_state.dart';
 
 //! Хорошо если мы создаем ValueNotifier в том же виджете, где и используем - как тут.
 //! Но если обновляем в родителе-виджете, а изменяем в ребенке-виджете, то нужно передать через конструктор
 void main() {
+  Global.navDataValueNotifier = NavDataValueNotifier(NavData((b) => b
+    ..book = 'start'
+    ..chapter = 1));
   runApp(MyApp());
 }
 
@@ -29,9 +33,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  final NavDataValueNotifier _navDataNotifier = NavDataValueNotifier(NavData((b) => b
-    ..book = 'start'
-    ..chapter = 1));
+  
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             );
           },
-          valueListenable: _navDataNotifier,
+          valueListenable: Global.navDataValueNotifier,
         ),
       ),
       body: Center(
@@ -77,55 +79,43 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 );
               },
-              valueListenable: _navDataNotifier,
+              valueListenable: Global.navDataValueNotifier,
               //!child: goodJob, //! Если дорого создавать виджет при каждом вызове ValueListenableBuilder
             )
           ],
         ),
       ),
-      floatingActionButton: ChildButton(navDataNotifier: _navDataNotifier),
+      floatingActionButton: ChildButton(),
     );
   }
 }
 
 class ChildButton extends StatelessWidget {
-  const ChildButton({
-    Key key,
-    @required NavDataValueNotifier navDataNotifier,
-  }) : _navDataNotifier = navDataNotifier, super(key: key);
-
-  final NavDataValueNotifier _navDataNotifier;
 
   @override
   Widget build(BuildContext context) {
-    return ThreeLevelChildButton(navDataNotifier: _navDataNotifier);
+    return ThreeLevelChildButton();
   }
 }
 
 class ThreeLevelChildButton extends StatelessWidget {
-  const ThreeLevelChildButton({
-    Key key,
-    @required NavDataValueNotifier navDataNotifier,
-  }) : _navDataNotifier = navDataNotifier, super(key: key);
-
-  final NavDataValueNotifier _navDataNotifier;
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
       child: Icon(Icons.plus_one),
       onPressed: () async {
-        print(_navDataNotifier.value);  
-        int lastCounter = _navDataNotifier.value.chapter;
+        print(Global.navDataValueNotifier.value);  
+        int lastCounter = Global.navDataValueNotifier.value.chapter;
         
-        print('widget ' + _navDataNotifier.value.hashCode.toString());
-        _navDataNotifier.incriment(lastCounter);
+        print('widget ' + Global.navDataValueNotifier.value.hashCode.toString());
+        Global.navDataValueNotifier.incriment(lastCounter);
         
-        var newValue = _navDataNotifier.value.rebuild((b) => b
+        var newValue = Global.navDataValueNotifier.value.rebuild((b) => b
           ..book= 'update');
 
         print(newValue);
-        _navDataNotifier.value = newValue;
+        Global.navDataValueNotifier.value = newValue;
 
       },
     );
