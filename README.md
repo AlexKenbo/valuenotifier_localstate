@@ -10,7 +10,7 @@ I already use bloc + clean arch in my projects, but I wanted to find something l
 
 Locally, I don’t need states - since the data is thrown inside the widget tree. There is no network data that takes a long time to load or contain delivery errors.
 
-The only thing I would like to find is how to pass the valuenotifier object from parent to child. While thinking about a global static variable.
+Pass the ValueNotifier object from parent to child in global static variable.
 
 Thank @ResoCoder for the idea:
 [https://github.com/ResoCoder/powers-of-immutable-state]
